@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://172.20.10.4:8000'
+const URL = 'http://172.20.10.4:3000'
 
 export async function createRoom(roomId, creatorId) {
   try {

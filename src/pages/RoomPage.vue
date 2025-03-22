@@ -1,6 +1,5 @@
 <script setup>
   import { ref, watch } from 'vue'
-  import { useRoomStore } from '../store/roomStore.js'
   import { useUserStore } from '../store/userStore.js'
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
@@ -9,14 +8,7 @@
   let mediaRecorder
   const isRecording = ref(false)
   const lang = ref('ru')
-  const roomStore = useRoomStore()
   const userStore = useUserStore()
-
-  watch(lang, () => {
-    ws.send(lang.value)
-    ws.send(userStore.isCreator ? 1 : 0)
-    console.log('send lang ->', lang.value)
-  })
 
   async function startRecording() {
     if (isRecording.value) return
@@ -40,7 +32,7 @@
       if (isRecording.value) {
         mediaRecorder.requestData()
       }
-    }, 5000)
+    }, 7000)
   }
 
   function stopRecording() {
@@ -62,15 +54,12 @@
     }
   }
 
-  // Функция воспроизведения аудиофайла
   const playAudio = () => {
     if (audioBlob.value) {
       const audioUrl = URL.createObjectURL(audioBlob.value)
       audioPlayer.value.src = audioUrl
       audioPlayer.value.play()
       isPlaying.value = true
-
-      // Обновление состояния после завершения воспроизведения
       audioPlayer.value.onended = () => {
         isPlaying.value = false
       }
@@ -80,29 +69,24 @@
   ws.onopen = function (e) {
     console.log('open -> ', e)
   }
-
   ws.onmessage = function (e) {
     console.log('message -> ', e.data)
     if (!userStore.isCreator) {
       handleIncomingMessage(e)
     }
   }
-
   ws.onclose = function (e) {
     mediaRecorder.stop()
     console.log('close -> ', e)
-    if (e.wasClean) {
-      console.log(
-        `Соединение было закрыто нормально, code=${e.code} reason=${e.reason}`
-      )
-    } else {
-      console.log('Соединение закрыто грязно')
-    }
   }
-
   ws.onerror = function (e) {
     console.log('error -> ', e)
   }
+  watch(lang, () => {
+    ws.send(lang.value)
+    ws.send(userStore.isCreator ? 1 : 0)
+    console.log('send lang ->', lang.value)
+  })
 </script>
 
 <template>
