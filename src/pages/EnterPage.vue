@@ -1,6 +1,5 @@
 <script setup>
   import { useUserStore } from '../store/userStore.ts'
-  import { ref, watch } from 'vue'
   import { useRouter } from 'vue-router'
   import { createUser } from '../api/userApi.js'
   import { createRoom, joinRoom } from '../api/roomApi.js'
@@ -8,38 +7,19 @@
 
   const userStore = useUserStore()
   const roomStore = useRoomStore()
-  const regex =
-    /\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b/i
-
-  const roomLink = ref(`${window.location.href}/${userStore.roomId}`)
-  watch(roomLink, () => {
-    let match = roomLink.value.match(regex)
-    if (match) {
-      userStore.roomId = match[1]
-    }
-  })
-
   const router = useRouter()
 
-  async function createWorld() {
-    const user = await createUser(userStore.name, userStore.lang)
-    userStore.userId = user.id
-    console.log('user ', user)
-    const room = await createRoom(userStore.roomId, user.id)
-    console.log('room', room)
-
-    roomStore.creatorId = room.creator_id
-    roomStore.roomId = room.id
-    roomStore.users = room.users
-
-    await router.push(`/${room.id}`)
-  }
-
-  async function joinWorld() {
+  async function pushToRoom() {
     const user = await createUser(userStore.name, userStore.lang)
     userStore.userId = user.id
     console.log('user', user)
-    const room = await joinRoom(userStore.roomId, user.id)
+    let room
+    if (userStore.isCreator) {
+      room = await createRoom(userStore.roomId, user.id)
+    } else {
+      room = await joinRoom(userStore.roomId, user.id)
+
+    }
     console.log('room', room)
 
     roomStore.creatorId = room.creator_id
@@ -52,70 +32,125 @@
 
 <template>
   <div class="wrapper">
-    <div class="form">
-      <h1>{{ userStore.isCreator ? 'Создать встречу' : 'Подключиться' }}</h1>
-      <div class="parts">
-        <div class="left">
-          <div class="block">
-            <label for="id">Ссылка на вашу комнату:</label>
+    <div class="container">
+      <div class="form-box">
+        <h2 class="form-title">{{userStore.isCreator ? 'Создать встречу' : 'Подключиться'}}</h2>
+        <form class="form">
+          <div class="form-group">
             <input
-              id="id"
-              v-model="roomLink"
-              placeholder="http://8fb3a712-3924..." />
+              placeholder="Введите код страницы"
+              v-model="userStore.roomId" />
           </div>
-
-          <div class="block">
-            <label for="name">Введите ваше имя:</label>
-            <input id="name" placeholder="Иванов Иван" v-model="userStore.name" />
+          <div class="form-group">
+            <input placeholder="Введите ваше имя" v-model="userStore.name" />
           </div>
-
-          <div class="block">
-            <p>Ваш язык:</p>
+          <div class="form-group">
             <select v-model="userStore.lang">
               <option value="ru">Русский</option>
-              <option value="en">English</option>
+              <option value="en">Английский</option>
             </select>
           </div>
-
-          <div class="block">
-            <button v-if="userStore.isCreator" @click="createWorld">Создать</button>
-            <button v-else @click="joinWorld">Подключиться</button>
-          </div>
-        </div>
-        <!--        <div class="right"></div>-->
+          <button
+            type="submit"
+            class="submit-button"
+            @click="pushToRoom">
+            {{userStore.isCreator ? 'Создать' : 'Войти'}}
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+  $primary-color: #9770c0;
+  $secondary-color: #ece6f0;
+  $text-color: #333;
+  $border-radius: 12px;
+  $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  $box-shadow-hover: 0 6px 14px rgba(0, 0, 0, 0.15);
+
   .wrapper {
-    width: 100vw;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    height: 100vh;
   }
 
-  .form {
-    background-color: #ece6f0;
-    border-radius: 28px;
-    width: 50vw;
-    height: 70vh;
-    padding: 50px;
-  }
-
-  .parts {
+  .container {
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    max-width: 400px;
   }
 
-  .left,
-  .right {
-    width: 49%;
-    height: 100%;
+  .form-box {
+    background-color: $secondary-color;
+    padding: 50px 20px;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: $box-shadow-hover;
+    }
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: $text-color;
+    font-size: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+
+    input,
+    select {
+      background-color: #fff;
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #bbb;
+      border-radius: $border-radius;
+      transition:
+        border-color 0.3s,
+        box-shadow 0.3s;
+
+      &:focus {
+        border-color: darken($primary-color, 10%);
+        box-shadow: 0 0 8px rgba($primary-color, 0.5);
+        outline: none;
+      }
+    }
+
+    input {
+      width: calc(100% - 15 * 2px);
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 16px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition:
+      background-color 0.3s,
+      transform 0.2s,
+      box-shadow 0.3s;
+    box-shadow: $box-shadow;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      box-shadow: $box-shadow-hover;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 </style>

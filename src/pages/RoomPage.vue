@@ -1,6 +1,7 @@
 <script setup>
   import { ref, watch } from 'vue'
   import { useUserStore } from '../store/userStore.js'
+  import MainFooter from '../components/MainFooter.vue'
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
   ws.binaryType = 'blob'
@@ -90,30 +91,133 @@
 </script>
 
 <template>
-  <div>
-    <button v-if="userStore.isCreator" @click="startRecording">start</button>
-    <button v-if="userStore.isCreator" @click="stopRecording">stop</button>
-
-    <select v-model="lang">
-      <option value="ru">Русский</option>
-      <option value="en">English (Английский)</option>
-      <option value="fr">Français (Французский)</option>
-      <option value="ha">Hausa (Хауса)</option>
-      <option value="ur">اردو (Урду)</option>
-    </select>
-
-    <div
-      style="width: 100px; height: 100px; background-color: #0f0"
-      v-if="userStore.isCreator && isRecording"></div>
-    <div
-      style="width: 100px; height: 100px; background-color: #f00"
-      v-if="userStore.isCreator && !isRecording"></div>
-
-    <div v-if="!userStore.isCreator">
-      <p v-if="isPlaying">🔊 Воспроизводится...</p>
-      <audio ref="audioPlayer" controls></audio>
-    </div>
-  </div>
+  <main>
+    <section class="video-container">
+      <audio ref="audioPlayer"></audio>
+    </section>
+    <aside class="sidebar">
+      <div class="participants">
+        <h3>Участники (29)</h3>
+        <ul>
+          <li>Иван Иванов</li>
+          <li>Мария Петрова</li>
+          <li>Алексей Смирнов</li>
+        </ul>
+      </div>
+      <div class="chat">
+        <h3>Чат</h3>
+        <div class="messages">
+          <p><strong>Иван:</strong> Не понимаю второй пункт, можете привести пример?</p>
+        </div>
+        <div class="chat-input">
+          <input type="text" placeholder="Сообщение">
+          <button>
+            <img src="../assets/send.svg" alt="">
+          </button>
+        </div>
+      </div>
+    </aside>
+  </main>
+  <MainFooter />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+  $primary-color: #9770c0;
+  $secondary-color: #ece6f0;
+  $text-color: #333;
+  $hover-color: #e8e8e8;
+
+  main {
+    height: calc(100% - 70px);
+    width: 100%;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .video-container {
+    flex: 3;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: $secondary-color;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .participants, .chat {
+    text-align: left;
+    font-size: 16px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .participants h3, .chat h3 {
+    margin-bottom: 10px;
+    color: $text-color;
+  }
+
+  .participants ul {
+    list-style: none;
+    padding-left: 0;
+    color: $text-color;
+  }
+
+  .chat {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    color: $text-color;
+  }
+
+  .chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+
+  .chat-input input {
+    width: 100%;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
+  }
+
+  .chat-input input:focus {
+    border-color: $primary-color;
+  }
+
+  .chat-input button {
+    border: none;
+    background-color: $primary-color;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .chat-input button:hover {
+    background-color: darken($primary-color, 10%);
+    transform: scale(1.05);
+  }
+</style>

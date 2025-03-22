@@ -1,6 +1,7 @@
 <script setup>
   import { useUserStore } from './store/userStore.ts'
   import { watch } from 'vue'
+  import MainHeader from './components/MainHeader.vue'
 
   const store = useUserStore()
   if (localStorage.getItem('userId')) {
@@ -22,9 +23,15 @@
 </script>
 
 <template>
-  <div class="wrapper">
+  <MainHeader />
+  <div class="wrapper-app">
     <router-view />
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .wrapper-app {
+    height: calc(100vh - 70px);
+    width: 100vw;
+  }
+</style>
