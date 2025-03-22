@@ -1,0 +1,23 @@
+{
+  "name": "techno-hack",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "extendable-media-recorder": "^9.2.22",
+    "extendable-media-recorder-wav-encoder": "^7.0.126",
+    "pinia": "^3.0.1",
+    "reset-css": "^5.0.2",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "prettier": "3.5.3",
+    "vite": "^6.2.0"
+  }
+}
