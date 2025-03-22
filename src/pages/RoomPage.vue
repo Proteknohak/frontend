@@ -1,6 +1,7 @@
 <script setup>
   import { ref, watch } from 'vue'
   import { useRoomStore } from '../store/roomStore.js'
+  import { useUserStore } from '../store/userStore.js'
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
   ws.binaryType = 'blob'
@@ -9,9 +10,11 @@
   const isRecording = ref(false)
   const lang = ref('ru')
   const roomStore = useRoomStore()
+  const userStore = useUserStore()
 
   watch(lang, () => {
     ws.send(lang.value)
+    ws.send(userStore.isCreator ? 1 : 0)
     console.log('send lang ->', lang.value)
   })
 
@@ -80,7 +83,9 @@
 
   ws.onmessage = function (e) {
     console.log('message -> ', e.data)
-    handleIncomingMessage(e)
+    if (!userStore.isCreator) {
+      handleIncomingMessage(e)
+    }
   }
 
   ws.onclose = function (e) {
@@ -105,9 +110,9 @@
     <button @click="startRecording">start</button>
     <button @click="stopRecording">stop</button>
 
-    <h1>{{roomStore.creatorId}}</h1>
-    <h1>{{roomStore.roomId}}</h1>
-    <h1>{{roomStore.users}}</h1>
+    <h1>{{ roomStore.creatorId }}</h1>
+    <h1>{{ roomStore.roomId }}</h1>
+    <h1>{{ roomStore.users }}</h1>
 
     <select v-model="lang">
       <option value="ru">Русский</option>
