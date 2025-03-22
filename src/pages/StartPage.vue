@@ -36,66 +36,87 @@
 
 <template>
   <div class="wrapper">
-    <div class="left">
-      <img class="logo" src="../assets/logo.svg" alt="Conntecto" />
-      <div class="buttons">
-        <button class="create-btn" @click="createRoom">Создать встречу</button>
-        <button class="join-btn" @click="joinRoom">
-          Подключиться к встрече
-        </button>
+    <div class="content">
+      <div class="top">
+        <img src="../assets/logo.svg" alt="Connecto" class="logo" />
+        <p class="title">
+          Говори свободно <br />
+          Понимай мгновенно
+        </p>
+      </div>
+      <div class="bottom">
+        <div class="buttons">
+          <button class="primary">Создать встречу</button>
+          <button class="secondary">Подключиться к встрече</button>
+        </div>
       </div>
     </div>
-    <div class="right"></div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+  $primary-color: #9770c0;
+
   .wrapper {
     width: 100vw;
     height: 100vh;
-  }
-
-  .left {
-    width: 60vw;
-    height: 100vh;
     display: flex;
     align-items: center;
-  }
-  .right {
-    width: 40vw;
-    height: 100vh;
+    justify-content: center;
   }
 
-  .left {
+  .content {
+    width: 75%;
+    height: 55%;
+  }
+
+  .top {
+    width: 100%;
+    height: 50%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 220px;
+    flex-direction: row;
+    justify-content: start;
+  }
+
+  .bottom {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
   }
 
   .logo {
-    max-width: 840px;
+    width: 57%;
+  }
+
+  .title {
+    color: $primary-color;
+    width: fit-content;
   }
 
   .buttons {
-    width: 100%;
+    width: fit-content;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 26px;
+    flex-direction: column;
+    gap: 28px;
   }
 
-  button {
-    width: calc(407px - 24 * 2px);
-    height: calc(117px - 16 * 2px);
-    border-radius: 102px;
-    border: 1px solid #000;
+  .buttons > button {
+    width: 20vw;
+    height: 6.25vw;
+    border-radius: 100px;
+  }
+
+  .primary {
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+  }
+
+  .secondary {
+    color: #000;
+    border: 1px solid $primary-color;
     background-color: #fff;
-    font-size: 20px;
-  }
-
-  .join-btn {
-    background-color: #d7d7d7;
   }
 </style>
