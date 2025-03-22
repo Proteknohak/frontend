@@ -1,17 +1,8 @@
 import { defineStore } from 'pinia'
 
-export const usePiniaStore = defineStore('pinia', {
+export const useUserStore = defineStore('user', {
   state: () => ({
-    value: 0,
+    isCreator: false,
+    uuid: '',
   }),
-  getters: {
-    multiValue(state) {
-      return state.value * 10
-    },
-  },
-  actions: {
-    incrementValue() {
-      this.value++
-    },
-  },
 })
