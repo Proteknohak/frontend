@@ -1,16 +1,20 @@
 <script setup>
   import { useRouter } from 'vue-router'
-  import { useI18n } from 'vue-i18n';
+  import { useI18n } from 'vue-i18n'
   import { ref } from 'vue'
 
-  const { global } = useI18n();
+  const { locale } = useI18n()
 
-  const systemLang = ref('English')
+  const systemLang = ref('Русский')
 
   function setSystemLang(lang) {
-    if (lang === 'ru') systemLang.value = 'Russian'
-    if (lang === 'en') systemLang.value = 'English'
-    global.locale = lang;
+    if (lang === 'ru') {
+      systemLang.value = 'Russian'
+    } else if (lang === 'en') {
+      systemLang.value = 'English'
+    }
+    locale.value = lang
+    console.log(locale.value)
   }
 
   const router = useRouter()
@@ -19,9 +23,14 @@
 <template>
   <header>
     <div class="logo">
-      <img src="../assets/logo.svg" alt="Connecto Logo" @click="router.push('/')" />
+      <img
+        src="../assets/logo.svg"
+        alt="Connecto Logo"
+        @click="router.push('/')" />
     </div>
-    <div class="lecture-title" v-if="router.currentRoute.value.name === 'room'">Лекция первая</div>
+    <div class="lecture-title" v-if="router.currentRoute.value.name === 'room'">
+      Лекция первая
+    </div>
     <div class="lang-dropdown">
       <p>{{ systemLang }}</p>
       <button class="lang-dropdown-btn">

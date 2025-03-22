@@ -39,7 +39,7 @@
           <img src="../assets/logo.svg" alt="Connecto" class="logo" />
           <p class="title">
             {{t('speak-freely')}} <br />
-            {{t('understand instantly')}}
+            {{t('understand-instantly')}}
           </p>
         </div>
       </div>
