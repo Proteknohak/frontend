@@ -107,12 +107,15 @@
       <div class="chat">
         <h3>Чат</h3>
         <div class="messages">
-          <p><strong>Иван:</strong> Не понимаю второй пункт, можете привести пример?</p>
+          <p>
+            <strong>Иван:</strong> Не понимаю второй пункт, можете привести
+            пример?
+          </p>
         </div>
         <div class="chat-input">
-          <input type="text" placeholder="Сообщение">
+          <input type="text" placeholder="Сообщение" />
           <button>
-            <img src="../assets/send.svg" alt="">
+            <img src="../assets/send.svg" alt="" />
           </button>
         </div>
       </div>
@@ -153,7 +156,8 @@
     overflow-y: auto;
   }
 
-  .participants, .chat {
+  .participants,
+  .chat {
     text-align: left;
     font-size: 16px;
     background-color: #fff;
@@ -161,7 +165,8 @@
     padding: 20px;
   }
 
-  .participants h3, .chat h3 {
+  .participants h3,
+  .chat h3 {
     margin-bottom: 10px;
     color: $text-color;
   }
@@ -213,7 +218,9 @@
     color: white;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
   }
 
   .chat-input button:hover {

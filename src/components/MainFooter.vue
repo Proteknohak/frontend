@@ -1,36 +1,38 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <footer>
     <div class="footer-group footer-group-left">
       <button class="footer-btn footer-btn-round">
-        <img src="../assets/link.svg" alt="Button 1">
+        <img src="../assets/link.svg" alt="Button 1" />
       </button>
     </div>
     <div class="footer-group footer-group-center">
       <button class="footer-btn footer-btn-pill">
-        <img src="../assets/tv.svg" alt="Button 3">
+        Транслировать
+        <img src="../assets/tv.svg" alt="Button 3" />
       </button>
-      <button class="footer-btn footer-btn-round">
-        <img src="../assets/video.svg" alt="Button 4">
+      <button class="footer-btn footer-btn-round use">
+        <img src="../assets/video.svg" alt="Button 4" />
       </button>
-      <button class="footer-btn footer-btn-pill">
-        <img src="../assets/mic.svg" alt="Button 5">
-      </button>
-      <button class="footer-btn footer-btn-round">
-        <img src="../assets/users.svg" alt="Button 6">
+      <button class="footer-btn footer-btn-round use">
+        <img src="../assets/mic.svg" alt="Button 5" />
       </button>
       <button class="footer-btn footer-btn-pill">
-        <img src="../assets/chat.svg" alt="Button 7">
+        Участники
+        <img src="../assets/users.svg" alt="Button 6" />
+      </button>
+      <button class="footer-btn footer-btn-pill">
+        Чат
+        <img src="../assets/chat.svg" alt="Button 7" />
       </button>
     </div>
     <div class="footer-group footer-group-right">
       <button class="footer-btn footer-btn-round">
-        <img src="../assets/more-vertical.svg" alt="Button 8">
+        <img src="../assets/more-vertical.svg" alt="Button 8" />
       </button>
       <button class="footer-btn footer-btn-round">
-        <img src="../assets/leave.svg" alt="Button 9">
+        <img src="../assets/leave.svg" alt="Button 9" />
       </button>
     </div>
   </footer>
@@ -63,8 +65,10 @@
     border: none;
     margin: 0 5px;
     background-color: #fff;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    padding: 10px;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+    padding: 12px;
     border-radius: 8px;
   }
 
@@ -79,9 +83,14 @@
     border-radius: 50%;
   }
 
+  .use {
+    background-color: #9770c0;
+  }
+
   .footer-btn-pill {
+    font-size: 14px;
     border-radius: 25px;
-    padding: 10px 25px;
+    padding: 12px 25px;
   }
 
   .footer-btn img {

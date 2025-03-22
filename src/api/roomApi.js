@@ -25,7 +25,9 @@ export async function joinRoom(roomId, userId) {
 
 export async function leaveRoom(roomId, userId) {
   try {
-    const response = await axios.delete(URL + `/room/${roomId}?user_id=${userId}`)
+    const response = await axios.delete(
+      URL + `/room/${roomId}?user_id=${userId}`
+    )
     return response.data
   } catch (e) {
     console.error(e)

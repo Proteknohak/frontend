@@ -12,14 +12,23 @@
     store.isCreator = Boolean(JSON.parse(localStorage.getItem('isCreator')))
   }
 
-  watch(() => [store.userId, store.name, store.roomId, store.lang, store.isCreator], () => {
-    console.log([store.userId, store.roomId, store.name, store.lang, store.isCreator])
-    localStorage.setItem('userId', store.userId)
-    localStorage.setItem('name', store.name)
-    localStorage.setItem('roomId', store.roomId)
-    localStorage.setItem('lang', store.lang)
-    localStorage.setItem('isCreator', store.isCreator)
-  })
+  watch(
+    () => [store.userId, store.name, store.roomId, store.lang, store.isCreator],
+    () => {
+      console.log([
+        store.userId,
+        store.roomId,
+        store.name,
+        store.lang,
+        store.isCreator,
+      ])
+      localStorage.setItem('userId', store.userId)
+      localStorage.setItem('name', store.name)
+      localStorage.setItem('roomId', store.roomId)
+      localStorage.setItem('lang', store.lang)
+      localStorage.setItem('isCreator', store.isCreator)
+    }
+  )
 </script>
 
 <template>

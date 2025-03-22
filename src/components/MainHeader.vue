@@ -13,9 +13,7 @@
     <div class="logo">
       <img src="../assets/logo.svg" alt="Connecto Logo" />
     </div>
-    <div class="lecture-title">
-      Лекция первая
-    </div>
+    <div class="lecture-title">Лекция первая</div>
     <div class="lang-dropdown">
       <p>{{ fullLang.get(systemLang) }}</p>
       <button class="lang-dropdown-btn">

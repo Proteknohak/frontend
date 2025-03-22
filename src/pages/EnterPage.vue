@@ -18,7 +18,6 @@
       room = await createRoom(userStore.roomId, user.id)
     } else {
       room = await joinRoom(userStore.roomId, user.id)
-
     }
     console.log('room', room)
 
@@ -34,7 +33,9 @@
   <div class="wrapper">
     <div class="container">
       <div class="form-box">
-        <h2 class="form-title">{{userStore.isCreator ? 'Создать встречу' : 'Подключиться'}}</h2>
+        <h2 class="form-title">
+          {{ userStore.isCreator ? 'Создать встречу' : 'Подключиться' }}
+        </h2>
         <form class="form">
           <div class="form-group">
             <input
@@ -50,11 +51,8 @@
               <option value="en">Английский</option>
             </select>
           </div>
-          <button
-            type="submit"
-            class="submit-button"
-            @click="pushToRoom">
-            {{userStore.isCreator ? 'Создать' : 'Войти'}}
+          <button type="submit" class="submit-button" @click="pushToRoom">
+            {{ userStore.isCreator ? 'Создать' : 'Войти' }}
           </button>
         </form>
       </div>

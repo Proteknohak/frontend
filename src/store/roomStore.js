@@ -4,6 +4,6 @@ export const useRoomStore = defineStore('room', {
   state: () => ({
     creatorId: '',
     roomId: '',
-    users: []
+    users: [],
   }),
 })
