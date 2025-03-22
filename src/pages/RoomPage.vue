@@ -107,12 +107,8 @@
 
 <template>
   <div>
-    <button @click="startRecording">start</button>
-    <button @click="stopRecording">stop</button>
-
-    <h1>{{ roomStore.creatorId }}</h1>
-    <h1>{{ roomStore.roomId }}</h1>
-    <h1>{{ roomStore.users }}</h1>
+    <button v-if="userStore.isCreator" @click="startRecording">start</button>
+    <button v-if="userStore.isCreator" @click="stopRecording">stop</button>
 
     <select v-model="lang">
       <option value="ru">Русский</option>
@@ -124,12 +120,12 @@
 
     <div
       style="width: 100px; height: 100px; background-color: #0f0"
-      v-if="isRecording"></div>
+      v-if="userStore.isCreator && isRecording"></div>
     <div
       style="width: 100px; height: 100px; background-color: #f00"
-      v-if="!isRecording"></div>
+      v-if="userStore.isCreator && !isRecording"></div>
 
-    <div>
+    <div v-if="!userStore.isCreator">
       <p v-if="isPlaying">🔊 Воспроизводится...</p>
       <audio ref="audioPlayer" controls></audio>
     </div>
