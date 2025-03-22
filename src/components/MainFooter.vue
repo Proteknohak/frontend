@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n();
+</script>
 
 <template>
   <footer>
@@ -9,7 +13,7 @@
     </div>
     <div class="footer-group footer-group-center">
       <button class="footer-btn footer-btn-pill">
-        Транслировать
+        {{t('broadcast')}}
         <img src="../assets/tv.svg" alt="Button 3" />
       </button>
       <button class="footer-btn footer-btn-round use">
@@ -19,11 +23,11 @@
         <img src="../assets/mic.svg" alt="Button 5" />
       </button>
       <button class="footer-btn footer-btn-pill">
-        Участники
+        {{t('users')}}
         <img src="../assets/users.svg" alt="Button 6" />
       </button>
       <button class="footer-btn footer-btn-pill">
-        Чат
+        {{t('chat')}}
         <img src="../assets/chat.svg" alt="Button 7" />
       </button>
     </div>

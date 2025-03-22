@@ -1,9 +1,11 @@
 <script setup>
   import { useRouter } from 'vue-router'
   import { useUserStore } from '../store/userStore.ts'
+  import { useI18n } from 'vue-i18n'
 
   const router = useRouter()
   const store = useUserStore()
+  const { t } = useI18n();
 
   function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
@@ -36,16 +38,16 @@
         <div class="top-slogan">
           <img src="../assets/logo.svg" alt="Connecto" class="logo" />
           <p class="title">
-            Говори свободно <br />
-            Понимай мгновенно
+            {{t('speak-freely')}} <br />
+            {{t('understand instantly')}}
           </p>
         </div>
       </div>
       <div class="bottom">
         <div class="buttons">
-          <button class="primary" @click="createRoom">Создать встречу</button>
+          <button class="primary" @click="createRoom">{{t('create-meeting')}}</button>
           <button class="secondary" @click="joinRoom">
-            Подключиться к встрече
+            {{t('join-meeting')}}
           </button>
         </div>
       </div>

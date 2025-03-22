@@ -2,6 +2,8 @@
   import { ref, watch } from 'vue'
   import { useUserStore } from '../store/userStore.js'
   import MainFooter from '../components/MainFooter.vue'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n();
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
   ws.binaryType = 'blob'
@@ -97,7 +99,7 @@
     </section>
     <aside class="sidebar">
       <div class="participants">
-        <h3>Участники (29)</h3>
+        <h3>{{t('users')}} (3)</h3>
         <ul>
           <li>Иван Иванов</li>
           <li>Мария Петрова</li>
@@ -105,7 +107,7 @@
         </ul>
       </div>
       <div class="chat">
-        <h3>Чат</h3>
+        <h3>{{t('chat')}}</h3>
         <div class="messages">
           <p>
             <strong>Иван:</strong> Не понимаю второй пункт, можете привести
@@ -113,7 +115,7 @@
           </p>
         </div>
         <div class="chat-input">
-          <input type="text" placeholder="Сообщение" />
+          <input type="text" :placeholder="t('message')" />
           <button>
             <img src="../assets/send.svg" alt="" />
           </button>

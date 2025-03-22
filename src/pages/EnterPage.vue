@@ -4,10 +4,12 @@
   import { createUser } from '../api/userApi.js'
   import { createRoom, joinRoom } from '../api/roomApi.js'
   import { useRoomStore } from '../store/roomStore.js'
+  import { useI18n } from 'vue-i18n'
 
   const userStore = useUserStore()
   const roomStore = useRoomStore()
   const router = useRouter()
+  const { t } = useI18n()
 
   async function pushToRoom() {
     const user = await createUser(userStore.name, userStore.lang)
@@ -34,25 +36,25 @@
     <div class="container">
       <div class="form-box">
         <h2 class="form-title">
-          {{ userStore.isCreator ? 'Создать встречу' : 'Подключиться' }}
+          {{ userStore.isCreator ? t('create-meeting') : t('join') }}
         </h2>
         <form class="form">
           <div class="form-group">
             <input
-              placeholder="Введите код страницы"
+              :placeholder="t('enter-code')"
               v-model="userStore.roomId" />
           </div>
           <div class="form-group">
-            <input placeholder="Введите ваше имя" v-model="userStore.name" />
+            <input :placeholder="t('enter-name')" v-model="userStore.name" />
           </div>
           <div class="form-group">
             <select v-model="userStore.lang">
-              <option value="ru">Русский</option>
-              <option value="en">Английский</option>
+              <option value="ru">{{ t('ru') }}</option>
+              <option value="en">{{ t('en') }}</option>
             </select>
           </div>
           <button type="submit" class="submit-button" @click="pushToRoom">
-            {{ userStore.isCreator ? 'Создать' : 'Войти' }}
+            {{ userStore.isCreator ? t('create') : t('enter') }}
           </button>
         </form>
       </div>

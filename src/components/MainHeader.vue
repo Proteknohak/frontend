@@ -1,12 +1,17 @@
 <script setup>
-  import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useI18n } from 'vue-i18n';
+  import { ref } from 'vue'
 
-  const systemLang = ref('ru')
+  const { global } = useI18n();
 
-  const fullLang = new Map()
-  fullLang.set('ru', 'Русский')
-  fullLang.set('en', 'English')
+  const systemLang = ref('English')
+
+  function setSystemLang(lang) {
+    if (lang === 'ru') systemLang.value = 'Russian'
+    if (lang === 'en') systemLang.value = 'English'
+    global.locale = lang;
+  }
 
   const router = useRouter()
 </script>
@@ -18,13 +23,13 @@
     </div>
     <div class="lecture-title" v-if="router.currentRoute.value.name === 'room'">Лекция первая</div>
     <div class="lang-dropdown">
-      <p>{{ fullLang.get(systemLang) }}</p>
+      <p>{{ systemLang }}</p>
       <button class="lang-dropdown-btn">
         <img src="../assets/translate.svg" alt="Выбор языка" />
       </button>
       <div class="lang-dropdown-content">
-        <a @click="systemLang = 'ru'">Русский</a>
-        <a @click="systemLang = 'en'">English</a>
+        <a @click="setSystemLang('ru')">Русский</a>
+        <a @click="setSystemLang('en')">English</a>
       </div>
     </div>
   </header>
