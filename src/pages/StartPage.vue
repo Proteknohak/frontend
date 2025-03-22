@@ -96,6 +96,6 @@
   }
 
   .join-btn {
-    background-color: #D7D7D7;
+    background-color: #d7d7d7;
   }
 </style>

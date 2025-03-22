@@ -53,7 +53,9 @@
       </div>
 
       <div class="block">
-        <button v-if="store.isCreator" @click="router.push(`/${store.uuid}`)">Создать</button>
+        <button v-if="store.isCreator" @click="router.push(`/${store.uuid}`)">
+          Создать
+        </button>
         <button v-else>Подключиться</button>
       </div>
     </div>

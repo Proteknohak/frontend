@@ -6,13 +6,7 @@
 
   let mediaRecorder
   const isRecording = ref(false)
-  const phrases = ref([])
-  const lang = ref('en')
-  let map = new Map()
-  map.set('en', 'UK')
-  map.set('ru', 'RU')
-  map.set('fr', 'FR')
-  map.set('zh', 'ZH')
+  const lang = ref('ru')
 
   watch(lang, () => {
     ws.send(lang.value)
@@ -84,7 +78,6 @@
 
   ws.onmessage = function (e) {
     console.log('message -> ', e.data)
-    phrases.value.push(e.data)
     handleIncomingMessage(e)
   }
 
@@ -128,10 +121,6 @@
     <div>
       <p v-if="isPlaying">🔊 Воспроизводится...</p>
       <audio ref="audioPlayer" controls></audio>
-    </div>
-
-    <div v-for="phrase in phrases">
-      <p>{{ phrase }}</p>
     </div>
   </div>
 </template>
