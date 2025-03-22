@@ -38,16 +38,18 @@
   <div class="wrapper">
     <div class="content">
       <div class="top">
-        <img src="../assets/logo.svg" alt="Connecto" class="logo" />
-        <p class="title">
-          Говори свободно <br />
-          Понимай мгновенно
-        </p>
+        <div class="top-slogan">
+          <img src="../assets/logo.svg" alt="Connecto" class="logo" />
+          <p class="title">
+            Говори свободно <br />
+            Понимай мгновенно
+          </p>
+        </div>
       </div>
       <div class="bottom">
         <div class="buttons">
-          <button class="primary">Создать встречу</button>
-          <button class="secondary">Подключиться к встрече</button>
+          <button class="primary" @click="createRoom">Создать встречу</button>
+          <button class="secondary" @click="joinRoom">Подключиться к встрече</button>
         </div>
       </div>
     </div>
@@ -56,6 +58,7 @@
 
 <style lang="scss" scoped>
   $primary-color: #9770c0;
+  $primary-color-darker: #745594;
 
   .wrapper {
     width: 100vw;
@@ -78,6 +81,12 @@
     justify-content: start;
   }
 
+  .top-slogan {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+
   .bottom {
     width: 100%;
     height: 50%;
@@ -87,12 +96,14 @@
   }
 
   .logo {
-    width: 57%;
+    width: 70%;
   }
 
   .title {
     color: $primary-color;
     width: fit-content;
+    text-align: left;
+    padding-left: 16%;
   }
 
   .buttons {
@@ -103,20 +114,30 @@
   }
 
   .buttons > button {
+    font-size: 18px;
     width: 20vw;
     height: 6.25vw;
     border-radius: 100px;
+    padding: 5px;
   }
 
   .primary {
     background-color: $primary-color;
     color: #fff;
     border: none;
+
+    &:hover {
+      background-color: $primary-color-darker;
+    }
   }
 
   .secondary {
     color: #000;
     border: 1px solid $primary-color;
     background-color: #fff;
+
+    &:hover {
+      background-color: #d9d9d9;
+    }
   }
 </style>
