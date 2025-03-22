@@ -3,16 +3,15 @@ import RoomPage from '../pages/RoomPage.vue'
 import StartPage from '../pages/StartPage.vue'
 import EnterPage from '../pages/EnterPage.vue'
 
-
 const routes = [
   { path: '/', component: StartPage },
-  { path: '/enter', component:  EnterPage},
-  { path: '/:uuid', component:  RoomPage},
+  { path: '/enter', component: EnterPage },
+  { path: '/:uuid', component: RoomPage },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 export default router

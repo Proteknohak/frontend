@@ -39,9 +39,7 @@
     <div class="left">
       <img class="logo" src="../assets/logo.svg" alt="Conntecto" />
       <div class="buttons">
-        <button class="create-btn" @click="createRoom">
-          Создать встречу
-        </button>
+        <button class="create-btn" @click="createRoom">Создать встречу</button>
         <button class="join-btn" @click="joinRoom">
           Подключиться к встрече
         </button>
@@ -57,20 +55,26 @@
     height: 100vh;
   }
 
-  .left,
+  .left {
+    width: 60vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
   .right {
-    width: 50vw;
+    width: 40vw;
     height: 100vh;
   }
 
   .left {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 220px;
   }
 
   .logo {
-    width: 100%;
+    max-width: 840px;
   }
 
   .buttons {
@@ -83,11 +87,15 @@
   }
 
   button {
-    width: calc(348px - 24 * 2px);
-    height: calc(95px - 16 * 2px);
+    width: calc(407px - 24 * 2px);
+    height: calc(117px - 16 * 2px);
     border-radius: 102px;
     border: 1px solid #000;
     background-color: #fff;
     font-size: 20px;
+  }
+
+  .join-btn {
+    background-color: #D7D7D7;
   }
 </style>

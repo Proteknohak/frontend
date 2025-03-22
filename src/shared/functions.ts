@@ -35,57 +35,60 @@ function stopRecording() {
 }
 
 async function sendAudioToServer(blob) {
-  const formData = new FormData();
-  formData.append("audio", blob, "recording.wav");
+  const formData = new FormData()
+  formData.append('audio', blob, 'recording.wav')
 
   try {
-    const response = await fetch("http://172.20.10.4:8000/", {
-      method: "POST",
+    const response = await fetch('http://172.20.10.4:8000/', {
+      method: 'POST',
       body: formData,
-    });
+    })
 
-    const result = await response.json();
-    console.log("Сервер ответил:", result);
+    const result = await response.json()
+    console.log('Сервер ответил:', result)
   } catch (error) {
-    console.error("Ошибка при отправке аудио:", error);
+    console.error('Ошибка при отправке аудио:', error)
   }
 }
 
 function speak(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voices = speechSynthesis.getVoices();
-  utterance.voice = voices.find(voice => voice.name.includes("Wavenet") || voice.name.includes("Neural")) || voices[0];
-  utterance.lang = "ru-RU"; // Указываем язык (можно поменять)
-  utterance.rate = 1; // Скорость (0.1 - 10)
-  utterance.pitch = 1; // Тон (0 - 2)
-  utterance.volume = 1; // Громкость (0 - 1)
+  const utterance = new SpeechSynthesisUtterance(text)
+  const voices = speechSynthesis.getVoices()
+  utterance.voice =
+    voices.find(
+      (voice) => voice.name.includes('Wavenet') || voice.name.includes('Neural')
+    ) || voices[0]
+  utterance.lang = 'ru-RU' // Указываем язык (можно поменять)
+  utterance.rate = 1 // Скорость (0.1 - 10)
+  utterance.pitch = 1 // Тон (0 - 2)
+  utterance.volume = 1 // Громкость (0 - 1)
 
-  speechSynthesis.speak(utterance);
+  speechSynthesis.speak(utterance)
 }
 
 function getVoices() {
-  const voices = speechSynthesis.getVoices();
-  console.log(voices);
+  const voices = speechSynthesis.getVoices()
+  console.log(voices)
 }
 
 async function startVolumeTracking() {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  const audioContext = new AudioContext();
-  const analyser = audioContext.createAnalyser();
-  const microphone = audioContext.createMediaStreamSource(stream);
-  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+  const audioContext = new AudioContext()
+  const analyser = audioContext.createAnalyser()
+  const microphone = audioContext.createMediaStreamSource(stream)
+  const dataArray = new Uint8Array(analyser.frequencyBinCount)
 
-  analyser.fftSize = 256; // Чем выше значение, тем точнее анализ (128–1024)
-  microphone.connect(analyser);
+  analyser.fftSize = 256 // Чем выше значение, тем точнее анализ (128–1024)
+  microphone.connect(analyser)
 
   function updateVolume() {
-    analyser.getByteFrequencyData(dataArray);
-    let sum = dataArray.reduce((a, b) => a + b, 0);
-    let volume = sum / dataArray.length; // Среднее значение громкости
+    analyser.getByteFrequencyData(dataArray)
+    let sum = dataArray.reduce((a, b) => a + b, 0)
+    let volume = sum / dataArray.length // Среднее значение громкости
 
-    console.log("Громкость:", volume);
-    requestAnimationFrame(updateVolume);
+    console.log('Громкость:', volume)
+    requestAnimationFrame(updateVolume)
   }
 
-  updateVolume();
+  updateVolume()
 }

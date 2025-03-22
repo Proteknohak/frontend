@@ -1,11 +1,7 @@
 <script setup>
-  /*
-  ссылка - генерю
-  имя - ввод
-  ваш язык - select
-  */
   import { useUserStore } from '../store/PiniaStore.js'
   import { computed, reactive } from 'vue'
+  import { useRouter } from 'vue-router'
 
   const store = useUserStore()
   console.log(store.uuid)
@@ -19,6 +15,7 @@
   const roomLink = computed(() => {
     return `${window.location.href}/${store.uuid}`
   })
+  const router = useRouter()
 </script>
 
 <template>
@@ -56,7 +53,7 @@
       </div>
 
       <div class="block">
-        <button v-if="store.isCreator">Создать</button>
+        <button v-if="store.isCreator" @click="router.push(`/${store.uuid}`)">Создать</button>
         <button v-else>Подключиться</button>
       </div>
     </div>
