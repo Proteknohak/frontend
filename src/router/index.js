@@ -6,7 +6,7 @@ import EnterPage from '../pages/EnterPage.vue'
 const routes = [
   { path: '/', component: StartPage },
   { path: '/enter', component: EnterPage },
-  { path: '/:uuid', component: RoomPage },
+  { path: '/:roomId', component: RoomPage },
 ]
 
 const router = createRouter({

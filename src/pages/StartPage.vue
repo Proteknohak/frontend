@@ -1,7 +1,6 @@
 <script setup>
   import { useRouter } from 'vue-router'
-  import { useUserStore } from '../store/PiniaStore.js'
-  import { onMounted } from 'vue'
+  import { useUserStore } from '../store/userStore.ts'
 
   const router = useRouter()
   const store = useUserStore()
@@ -18,20 +17,16 @@
   }
 
   function createRoom() {
-    store.uuid = generateUUID()
+    store.roomId = generateUUID()
     store.isCreator = true
     router.push('/enter')
   }
 
   function joinRoom() {
+    store.roomId = ''
     store.isCreator = false
     router.push('enter')
   }
-
-  onMounted(() => {
-    store.uuid = ''
-    store.isCreator = false
-  })
 </script>
 
 <template>
@@ -49,7 +44,9 @@
       <div class="bottom">
         <div class="buttons">
           <button class="primary" @click="createRoom">Создать встречу</button>
-          <button class="secondary" @click="joinRoom">Подключиться к встрече</button>
+          <button class="secondary" @click="joinRoom">
+            Подключиться к встрече
+          </button>
         </div>
       </div>
     </div>

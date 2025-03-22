@@ -1,5 +1,6 @@
 <script setup>
   import { ref, watch } from 'vue'
+  import { useRoomStore } from '../store/roomStore.js'
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
   ws.binaryType = 'blob'
@@ -7,6 +8,7 @@
   let mediaRecorder
   const isRecording = ref(false)
   const lang = ref('ru')
+  const roomStore = useRoomStore()
 
   watch(lang, () => {
     ws.send(lang.value)
@@ -102,6 +104,10 @@
   <div>
     <button @click="startRecording">start</button>
     <button @click="stopRecording">stop</button>
+
+    <h1>{{roomStore.creatorId}}</h1>
+    <h1>{{roomStore.roomId}}</h1>
+    <h1>{{roomStore.users}}</h1>
 
     <select v-model="lang">
       <option value="ru">Русский</option>
