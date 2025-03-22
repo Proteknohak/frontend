@@ -1,11 +1,23 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
+  ws.binaryType = 'blob'
 
   let mediaRecorder
   const isRecording = ref(false)
   const phrases = ref([])
+  const lang = ref('en')
+  let map = new Map()
+  map.set('en', 'UK')
+  map.set('ru', 'RU')
+  map.set('fr', 'FR')
+  map.set('zh', 'ZH')
+
+  watch(lang, () => {
+    ws.send(lang.value)
+    console.log('send lang ->', lang.value)
+  })
 
   async function startRecording() {
     if (isRecording.value) return
@@ -40,6 +52,32 @@
     }
   }
 
+  const audioBlob = ref(null)
+  const audioPlayer = ref(null)
+  const isPlaying = ref(false)
+
+  const handleIncomingMessage = (event) => {
+    if (event.data instanceof Blob) {
+      audioBlob.value = event.data
+      playAudio()
+    }
+  }
+
+  // Функция воспроизведения аудиофайла
+  const playAudio = () => {
+    if (audioBlob.value) {
+      const audioUrl = URL.createObjectURL(audioBlob.value)
+      audioPlayer.value.src = audioUrl
+      audioPlayer.value.play()
+      isPlaying.value = true
+
+      // Обновление состояния после завершения воспроизведения
+      audioPlayer.value.onended = () => {
+        isPlaying.value = false
+      }
+    }
+  }
+
   ws.onopen = function (e) {
     console.log('open -> ', e)
   }
@@ -47,6 +85,7 @@
   ws.onmessage = function (e) {
     console.log('message -> ', e.data)
     phrases.value.push(e.data)
+    handleIncomingMessage(e)
   }
 
   ws.onclose = function (e) {
@@ -71,12 +110,25 @@
     <button @click="startRecording">start</button>
     <button @click="stopRecording">stop</button>
 
+    <select v-model="lang">
+      <option value="ru">Русский</option>
+      <option value="en">English (Английский)</option>
+      <option value="fr">Français (Французский)</option>
+      <option value="ha">Hausa (Хауса)</option>
+      <option value="ur">اردو (Урду)</option>
+    </select>
+
     <div
       style="width: 100px; height: 100px; background-color: #0f0"
       v-if="isRecording"></div>
     <div
       style="width: 100px; height: 100px; background-color: #f00"
       v-if="!isRecording"></div>
+
+    <div>
+      <p v-if="isPlaying">🔊 Воспроизводится...</p>
+      <audio ref="audioPlayer" controls></audio>
+    </div>
 
     <div v-for="phrase in phrases">
       <p>{{ phrase }}</p>
