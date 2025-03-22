@@ -4,9 +4,9 @@ import StartPage from '../pages/StartPage.vue'
 import EnterPage from '../pages/EnterPage.vue'
 
 const routes = [
-  { path: '/', component: StartPage },
-  { path: '/enter', component: EnterPage },
-  { path: '/:roomId', component: RoomPage },
+  { path: '/', name: 'start', component: StartPage },
+  { path: '/enter', name: 'enter', component: EnterPage },
+  { path: '/:roomId', name: 'room', component: RoomPage },
 ]
 
 const router = createRouter({

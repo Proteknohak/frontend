@@ -1,19 +1,22 @@
 <script setup>
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
   const systemLang = ref('ru')
 
   const fullLang = new Map()
   fullLang.set('ru', 'Русский')
   fullLang.set('en', 'English')
+
+  const router = useRouter()
 </script>
 
 <template>
   <header>
     <div class="logo">
-      <img src="../assets/logo.svg" alt="Connecto Logo" />
+      <img src="../assets/logo.svg" alt="Connecto Logo" @click="router.push('/')" />
     </div>
-    <div class="lecture-title">Лекция первая</div>
+    <div class="lecture-title" v-if="router.currentRoute.value.name === 'room'">Лекция первая</div>
     <div class="lang-dropdown">
       <p>{{ fullLang.get(systemLang) }}</p>
       <button class="lang-dropdown-btn">
