@@ -21,7 +21,7 @@
     mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
 
     mediaRecorder.ondataavailable = async (event) => {
-      if (event.data.size > 0 && isRecording.value) {
+      if (event.data.size > 0) {
         const webmBlob = new Blob([event.data], { type: 'audio/webm' })
 
         ws.send(webmBlob)
@@ -51,10 +51,8 @@
   const isPlaying = ref(false)
 
   const handleIncomingMessage = (event) => {
-    if (event.data instanceof Blob) {
-      audioBlob.value = event.data
-      playAudio()
-    }
+    audioBlob.value = event.data
+    playAudio()
   }
 
   const playAudio = () => {
@@ -88,7 +86,7 @@
 
   function sendHuinya() {
     ws.send(userStore.isCreator ? 1 : 0)
-    if (!userStore.isCreator){
+    if (!userStore.isCreator) {
       ws.send(userStore.lang)
     }
   }
@@ -117,6 +115,7 @@
 <template>
   <main>
     <section class="video-container">
+      <audio ref="audioPlayer"></audio>
       <video v-if="userStore.isCreator" ref="localVideo" autoplay></video>
       <div v-else class="user-icon">КБ</div>
     </section>
