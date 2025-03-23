@@ -117,8 +117,8 @@
 <template>
   <main>
     <section class="video-container">
-      <audio ref="audioPlayer"></audio>
-      <video ref="localVideo" autoplay></video>
+      <video v-if="userStore.isCreator" ref="localVideo" autoplay></video>
+      <div v-else class="user-icon">КБ</div>
     </section>
     <aside class="sidebar">
       <div class="participants">
@@ -192,6 +192,17 @@
   $secondary-color: #ece6f0;
   $text-color: #333;
   $hover-color: #e8e8e8;
+
+  .user-icon {
+    width: 150px;
+    height: 150px;
+    background-color: orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+  }
 
   main {
     height: calc(100% - 70px);
