@@ -71,9 +71,12 @@
           </div>
           <div class="block">
             <p>Ваш язык:</p>
-            <select v-model="userStore.lang">
+            <select v-model="lang">
               <option value="ru">Русский</option>
-              <option value="en">English</option>
+              <option value="en">Английский</option>
+              <option value="fr">Французский</option>
+              <option value="ur">Урду</option>
+              <option value="ha">Хауса</option>
             </select>
           </div>
           <div class="block">

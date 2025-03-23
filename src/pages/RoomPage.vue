@@ -1,9 +1,9 @@
 <script setup>
-  import { ref, watch } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { useUserStore } from '../store/userStore.js'
-  import MainFooter from '../components/MainFooter.vue'
   import { useI18n } from 'vue-i18n'
-  const { t } = useI18n();
+
+  const { t } = useI18n()
 
   let ws = new WebSocket('ws://172.20.10.4:8000/')
   ws.binaryType = 'blob'
@@ -35,7 +35,7 @@
       if (isRecording.value) {
         mediaRecorder.requestData()
       }
-    }, 7000)
+    }, 5000)
   }
 
   function stopRecording() {
@@ -85,10 +85,30 @@
   ws.onerror = function (e) {
     console.log('error -> ', e)
   }
-  watch(lang, () => {
-    ws.send(lang.value)
+
+  function sendHuinya() {
+    ws.send(userStore.lang)
     ws.send(userStore.isCreator ? 1 : 0)
-    console.log('send lang ->', lang.value)
+  }
+
+  // Ссылка на элемент video
+  const localVideo = ref(null)
+
+  // Функция для получения потока с камеры
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+      if (localVideo.value) {
+        localVideo.value.srcObject = stream
+      }
+    } catch (error) {
+      console.error('Ошибка при доступе к камере: ', error)
+    }
+  }
+
+  // Запуск камеры при монтировании компонента
+  onMounted(() => {
+    startCamera()
   })
 </script>
 
@@ -96,10 +116,11 @@
   <main>
     <section class="video-container">
       <audio ref="audioPlayer"></audio>
+      <video ref="localVideo" autoplay></video>
     </section>
     <aside class="sidebar">
       <div class="participants">
-        <h3>{{t('users')}} (3)</h3>
+        <h3>{{ t('users') }} (3)</h3>
         <ul>
           <li>Иван Иванов</li>
           <li>Мария Петрова</li>
@@ -107,7 +128,7 @@
         </ul>
       </div>
       <div class="chat">
-        <h3>{{t('chat')}}</h3>
+        <h3>{{ t('chat') }}</h3>
         <div class="messages">
           <p>
             <strong>Иван:</strong> Не понимаю второй пункт, можете привести
@@ -123,7 +144,45 @@
       </div>
     </aside>
   </main>
-  <MainFooter />
+  <!--  <MainFooter />-->
+  <footer>
+    <div class="footer-group footer-group-left">
+      <button class="footer-btn footer-btn-round" @click="sendHuinya">
+        <img src="../assets/link.svg" alt="Button 1" />
+      </button>
+    </div>
+    <div class="footer-group footer-group-center">
+      <button class="footer-btn footer-btn-pill">
+        {{ t('broadcast') }}
+        <img src="../assets/tv.svg" alt="Button 3" />
+      </button>
+      <button class="footer-btn footer-btn-round use">
+        <img src="../assets/video.svg" alt="Button 4" />
+      </button>
+      <button
+        @click="startRecording"
+        class="footer-btn footer-btn-round use"
+        :class="{ green: isRecording }">
+        <img src="../assets/mic.svg" alt="Button 5" />
+      </button>
+      <button class="footer-btn footer-btn-pill">
+        {{ t('users') }}
+        <img src="../assets/users.svg" alt="Button 6" />
+      </button>
+      <button class="footer-btn footer-btn-pill">
+        {{ t('chat') }}
+        <img src="../assets/chat.svg" alt="Button 7" />
+      </button>
+    </div>
+    <div class="footer-group footer-group-right">
+      <button class="footer-btn footer-btn-round">
+        <img src="../assets/more-vertical.svg" alt="Button 8" />
+      </button>
+      <button class="footer-btn footer-btn-round">
+        <img src="../assets/leave.svg" alt="Button 9" />
+      </button>
+    </div>
+  </footer>
 </template>
 
 <style scoped lang="scss">
@@ -228,5 +287,70 @@
   .chat-input button:hover {
     background-color: darken($primary-color, 10%);
     transform: scale(1.05);
+  }
+
+  $primary-color: #9770c0;
+  $secondary-color: #ece6f0;
+  $text-color: #333;
+  $hover-color: #e8e8e8;
+  footer {
+    background-color: $secondary-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    margin: 0 5px;
+    background-color: #fff;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .footer-btn:hover {
+    background-color: $hover-color;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-btn-round {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  .use {
+    background-color: #9770c0;
+  }
+
+  .green {
+    background-color: limegreen;
+  }
+
+  .footer-btn-pill {
+    font-size: 14px;
+    border-radius: 25px;
+    padding: 12px 25px;
+  }
+
+  .footer-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
   }
 </style>
