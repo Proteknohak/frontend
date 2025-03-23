@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://172.20.10.4:3000'
+const URL = 'http://172.20.10.4:8000'
 
 export async function getUsers(name, lang) {
   try {

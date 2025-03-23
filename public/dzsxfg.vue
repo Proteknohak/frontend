@@ -11,7 +11,7 @@
   const regex =
     /\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b/i
 
-  const roomLink = ref(`${userStore.roomId}`)
+  const roomLink = ref(`${window.location.href}/${userStore.roomId}`)
 
   watch(roomLink, () => {
     let match = roomLink.value.match(regex)
@@ -48,80 +48,36 @@
 
 <template>
   <div class="wrapper">
-    <div class="form">
-      <h1>{{ userStore.isCreator ? 'Создать встречу' : 'Подключиться' }}</h1>
+    <div class="container">
+      <div class="form-box">
+        <h2 class="form-title">
+          {{ userStore.isCreator ? 'Создать встречу' : 'Подключиться' }}
+        </h2>
 
-      <div class="parts">
-        <div class="left">
-          <div class="block">
-            <label for="id">Ссылка на вашу комнату:</label>
-
+        <form class="form">
+          <div class="form-group">
             <input
-              id="id"
-              v-model="userStore.roomId"
-              placeholder="http://8fb3a712-3924..." />
+              placeholder="Введите код страницы"
+              v-model="userStore.roomId" />
           </div>
 
-          <div class="block">
-            <label for="name">Введите ваше имя:</label>
-            <input
-              id="name"
-              placeholder="Иванов Иван"
-              v-model="userStore.name" />
+          <div class="form-group">
+            <input placeholder="Введите ваше имя" v-model="userStore.name" />
           </div>
-          <div class="block">
-            <p>Ваш язык:</p>
+
+          <div class="form-group">
             <select v-model="userStore.lang">
               <option value="ru">Русский</option>
-              <option value="en">English</option>
+
+              <option value="en">Английский</option>
             </select>
           </div>
-          <div class="block">
-            <button v-if="userStore.isCreator" @click="createWorld">
-              Создать
-            </button>
-            <button v-else @click="joinWorld">Подключиться</button>
-          </div>
-        </div>
-        <!--        <div class="right"></div>-->
+
+          <button type="submit" class="submit-button" @click="pushToRoom">
+            {{ userStore.isCreator ? 'Создать' : 'Войти' }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-  .wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .form {
-    background-color: #ece6f0;
-    border-radius: 28px;
-    width: 50vw;
-    height: 70vh;
-    padding: 50px;
-  }
-
-  .parts {
-    width: 100%;
-
-    height: 100%;
-
-    display: flex;
-
-    flex-direction: row;
-
-    justify-content: space-between;
-  }
-
-  .left,
-  .right {
-    width: 49%;
-
-    height: 100%;
-  }
-</style>
