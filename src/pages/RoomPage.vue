@@ -87,8 +87,10 @@
   }
 
   function sendHuinya() {
-    ws.send(userStore.lang)
     ws.send(userStore.isCreator ? 1 : 0)
+    if (!userStore.isCreator){
+      ws.send(userStore.lang)
+    }
   }
 
   // Ссылка на элемент video
